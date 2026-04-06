@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgis/postgis
+    container_name: food-rescue-optimizer
+    environment:
+      POSTGRES_DB: food_rescue_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5433:5432"

@@ -1,0 +1,6 @@
+spring.application.name=food-rescue-optimizer
+spring.datasource.url=jdbc:postgresql://localhost:5433/food_rescue_db
+spring.datasource.username=postgres
+spring.jpa.hibernate.ddl-auto=validate
+spring.jpa.show-sql=true
+server.port=8081
