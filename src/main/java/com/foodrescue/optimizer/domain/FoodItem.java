@@ -35,4 +35,11 @@ public class FoodItem {
     private LocalDateTime availableFrom;
     @Future
     private LocalDateTime expiresAt;
+    private Double spoilageRiskScore;
+    @Enumerated(EnumType.STRING)
+    private FoodCategory foodCategory;
+
+    public enum FoodCategory{
+        BREAD, DAIRY, PRODUCE
+    }
 }
