@@ -1,0 +1,33 @@
+{
+  "family": "food-rescue-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::749185461205:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "food-rescue-optimizer",
+      "image": "749185461205.dkr.ecr.us-east-1.amazonaws.com/food-rescue-optimizer:latest",
+      "portMappings": [
+        {
+          "containerPort": 8081,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {"name": "SPRING_DATASOURCE_URL", "value": "jdbc:postgresql://food-rescue-db.cwl0ukiem0i4.us-east-1.rds.amazonaws.com:5432/postgres"},
+        {"name": "SPRING_DATASOURCE_USERNAME", "value": "postgres"},
+        {"name": "SPRING_DATASOURCE_PASSWORD", "value": "FoodRescue2026!"}
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/food-rescue",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
