@@ -16,10 +16,15 @@ import java.util.UUID;
 public class FoodItemService {
     private final FoodItemRepository foodItemRepository;
     private final DonorRepository donorRepository;
+    private final SpoilageRiskScorer spoilageRiskScorer;
 
-    public FoodItem createFoodItem(FoodItem foodItem, UUID donorId){
+    public FoodItem createFoodItem(FoodItem foodItem, UUID donorId) {
         Donor donor = donorRepository.findById(donorId).orElseThrow();
         foodItem.setDonor(donor);
-        return foodItemRepository.save(foodItem);
+        FoodItem saved = foodItemRepository.save(foodItem);
+
+        double score = spoilageRiskScorer.score(saved, 25.0);
+        saved.setSpoilageRiskScore(score);
+        return foodItemRepository.save(saved);
     }
 }
