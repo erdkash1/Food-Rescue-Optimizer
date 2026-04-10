@@ -3,10 +3,11 @@ package com.foodrescue.optimizer.controller;
 import com.foodrescue.optimizer.domain.Donor;
 import com.foodrescue.optimizer.service.DonorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/donors")
@@ -16,4 +17,10 @@ public class DonorController {
 
     @PostMapping
     public Donor createDonor(@RequestBody Donor donor){ return donorService.createDonor(donor);}
+
+    @GetMapping
+    public List<Donor> getAllDonor(){ return donorService.getAllDonor();}
+
+    @GetMapping("/{id}")
+    public Optional<Donor> getDonorById(@PathVariable UUID id){ return donorService.getDonorById(id);}
 }
