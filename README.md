@@ -40,4 +40,4 @@ Food waste is a global problem. This system connects food donors (restaurants, s
 
 ## Live Demo
 
-API running at: http://3.239.9.70:8081
+Live API: http://3.238.51.54:8081
