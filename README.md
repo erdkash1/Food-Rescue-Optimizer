@@ -27,7 +27,15 @@ Food waste is a global problem. This system connects food donors (restaurants, s
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | /api/donors | Register a food donor |
+| GET | /api/donors | List all donors |
+| GET | /api/donors/{id} | Get donor by ID |
 | POST | /api/donors/{id}/food-items | Submit a food item |
+| POST | /api/recipients | Register a recipient |
+| GET | /api/recipients | List all recipients |
+| GET | /api/recipients/{id} | Get recipient by ID |
+| POST | /api/vehicles | Add a vehicle |
+| GET | /api/vehicles | List all vehicles |
+| GET | /api/vehicles/{id} | Get vehicle by ID |
 | POST | /api/optimize | Run the AI route optimizer |
 
 ## Live Demo
