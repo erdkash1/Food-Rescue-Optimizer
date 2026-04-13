@@ -5,7 +5,6 @@ import com.foodrescue.optimizer.service.RecipientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -22,7 +21,7 @@ public class RecipientController {
     public List<Recipient> getAllRecipient(){ return recipientService.getAllRecipient();}
 
     @GetMapping("/{id}")
-    public Optional<Recipient> getRecipientById(@PathVariable UUID id){ return recipientService.getRecipientById(id);}
+    public Recipient getRecipientById(@PathVariable UUID id){ return recipientService.getRecipientById(id);}
 }
 
 
