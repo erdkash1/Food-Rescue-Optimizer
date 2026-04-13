@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,7 +20,7 @@ public class DonorService {
         return donorRepository.findAll();
     }
 
-    public Optional<Donor> getDonorById(UUID id){
-        return donorRepository.findById(id);
+    public Donor getDonorById(UUID id){
+        return donorRepository.findById(id).orElseThrow();
     }
 }
