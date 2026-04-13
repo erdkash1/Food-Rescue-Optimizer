@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,8 +20,8 @@ public class RecipientService {
     public List<Recipient> getAllRecipient(){
         return recipientRepository.findAll();
     }
-    public Optional<Recipient> getRecipientById(UUID id){
-        return recipientRepository.findById(id);
+    public Recipient getRecipientById(UUID id){
+        return recipientRepository.findById(id).orElseThrow();
     }
 
 
