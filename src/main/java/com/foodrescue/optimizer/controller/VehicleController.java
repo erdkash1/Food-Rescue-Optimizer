@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -21,6 +20,6 @@ public class VehicleController {
     @GetMapping
     public List<Vehicle> getAllVehicle(){ return vehicleService.getAllVehicle();}
     @GetMapping("/{id}")
-    public Optional<Vehicle> getVehicleById(@PathVariable UUID id){ return vehicleService.getVehicleById(id);}
+    public Vehicle getVehicleById(@PathVariable UUID id){ return vehicleService.getVehicleById(id);}
 
 }
