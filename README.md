@@ -22,6 +22,12 @@ Food waste is a global problem. This system connects food donors (restaurants, s
 - PostgreSQL + Flyway
 - Docker, AWS ECS, AWS RDS
 
+## API Documentation
+
+Interactive API docs available at: http://localhost:8081/swagger-ui/index.html
+
+Live docs on AWS: http://3.238.51.54:8081/swagger-ui/index.html
+
 ## API Endpoints
 
 | Method | Endpoint | Description |
