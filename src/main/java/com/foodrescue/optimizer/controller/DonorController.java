@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -22,5 +21,5 @@ public class DonorController {
     public List<Donor> getAllDonor(){ return donorService.getAllDonor();}
 
     @GetMapping("/{id}")
-    public Optional<Donor> getDonorById(@PathVariable UUID id){ return donorService.getDonorById(id);}
+    public Donor getDonorById(@PathVariable UUID id){ return donorService.getDonorById(id);}
 }
