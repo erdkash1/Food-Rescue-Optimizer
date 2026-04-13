@@ -5,7 +5,6 @@ import com.foodrescue.optimizer.repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -15,6 +14,6 @@ public class VehicleService {
 
     public Vehicle createVehicle(Vehicle vehicle){ return vehicleRepository.save(vehicle);}
     public List<Vehicle> getAllVehicle(){ return vehicleRepository.findAll();}
-    public Optional<Vehicle> getVehicleById(UUID id){ return vehicleRepository.findById(id);}
+    public Vehicle getVehicleById(UUID id){ return vehicleRepository.findById(id).orElseThrow();}
 
 }
