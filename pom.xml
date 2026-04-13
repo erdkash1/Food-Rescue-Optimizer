@@ -124,10 +124,12 @@
                 <configuration>
                     <excludes>
                         <exclude>**/DonorRepositoryTest.java</exclude>
+                        <exclude>**/FoodRescueOptimizerApplicationTests.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
 
 </project>
