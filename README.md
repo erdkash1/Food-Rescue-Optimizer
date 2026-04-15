@@ -1,26 +1,45 @@
-# Food Rescue Optimizer
+# 🥗 Food Rescue Optimizer
 
-A production-grade AI-powered food rescue logistics system built with Java 21 and Spring Boot.
+> AI-powered food rescue logistics platform — built with Java 21, Spring Boot, Timefold constraint solver, and deployed on AWS ECS.
 
-## What It Does
+## The Problem
 
-Food waste is a global problem. This system connects food donors (restaurants, supermarkets) with recipients (food banks, shelters) and uses AI to optimize pickup and delivery routes — minimizing distance, saving fuel, and ensuring food reaches people before it spoils.
+Over 1.3 billion tons of food is wasted globally every year while millions go hungry. The gap isn't food — it's logistics. Donors don't know where to send food. Recipients don't know what's available. And no one is optimizing the routes.
+
+## The Solution
+
+Food Rescue Optimizer connects food donors (restaurants, supermarkets) with recipients (food banks, shelters) and uses AI to plan the most efficient pickup and delivery routes — minimizing distance, saving fuel, and ensuring food reaches people before it spoils.
+
+## How It Works
+
+1. **Donor registers** and submits available food items with quantity and expiry time
+2. **ML model scores** spoilage risk instantly based on food category, temperature, and hours until expiry
+3. **AI optimizer assigns** vehicles to pickups using constraint-based optimization
+4. **Routes are served** via REST API for downstream apps to consume
 
 ## Key Features
 
-- **Donor Registration** — donors submit available food items with quantity and expiry time
-- **AI Route Optimizer** — Timefold solver assigns vehicles to pickups using constraint-based optimization
-- **ML Spoilage Scorer** — logistic regression model predicts spoilage risk based on food category, temperature, and hours until expiry
-- **Automated Database Migrations** — Flyway manages schema versioning
-- **Cloud Deployed** — running on AWS ECS Fargate with RDS PostgreSQL
+- 🤖 **AI Route Optimizer** — Timefold constraint solver assigns vehicles to pickups across 3 hard constraints: vehicle capacity, time windows, and distance minimization
+- 🧠 **ML Spoilage Scorer** — logistic regression model (Smile library) predicts spoilage risk at submission time using food category, temperature, and hours until expiry
+- ☁️ **Cloud Native** — containerized with Docker, deployed on AWS ECS Fargate with RDS PostgreSQL
+- 🔄 **CI/CD Pipeline** — GitHub Actions automatically builds, tests, and redeploys on every push to main
+- 📋 **API Documentation** — Swagger/OpenAPI interactive docs with all 11 endpoints
+- 🗄️ **Zero Schema Drift** — versioned Flyway migrations ensure identical database state from local to production
+- ✅ **Tested** — unit tested with JUnit 5 and Mockito
 
 ## Tech Stack
 
-- Java 21, Spring Boot 3.4.4
-- Timefold AI (constraint solver)
-- Smile (machine learning)
-- PostgreSQL + Flyway
-- Docker, AWS ECS, AWS RDS
+| Layer | Technology |
+|-------|-----------|
+| Language | Java 21 |
+| Framework | Spring Boot 3.4.4 |
+| AI Optimizer | Timefold Solver |
+| ML Library | Smile (Logistic Regression) |
+| Database | PostgreSQL + Flyway |
+| Containerization | Docker |
+| Cloud | AWS ECS Fargate + RDS |
+| CI/CD | GitHub Actions |
+| API Docs | Swagger / OpenAPI |
 
 ## API Endpoints
 
@@ -29,7 +48,7 @@ Food waste is a global problem. This system connects food donors (restaurants, s
 | POST | /api/donors | Register a food donor |
 | GET | /api/donors | List all donors |
 | GET | /api/donors/{id} | Get donor by ID |
-| POST | /api/donors/{id}/food-items | Submit a food item |
+| POST | /api/donors/{id}/food-items | Submit a food item with ML scoring |
 | POST | /api/recipients | Register a recipient |
 | GET | /api/recipients | List all recipients |
 | GET | /api/recipients/{id} | Get recipient by ID |
@@ -40,10 +59,37 @@ Food waste is a global problem. This system connects food donors (restaurants, s
 
 ## Live Demo
 
-Live API: http://3.238.51.54:8081
+| Resource | URL |
+|----------|-----|
+| 🌐 Live API | http://3.238.51.54:8081 |
+| 📖 API Docs | http://3.238.51.54:8081/swagger-ui/index.html |
+| 💻 GitHub | https://github.com/erdkash1/Food-Rescue-Optimizer |
 
-## API Documentation
+## Getting Started
 
-Interactive API docs available at: http://localhost:8081/swagger-ui/index.html
+### Prerequisites
+- Java 21
+- Docker + Colima (Mac) or Docker Desktop
+- PostgreSQL
 
-Live docs on AWS: http://3.238.51.54:8081/swagger-ui/index.html
+### Run Locally
+```bash
+colima start
+docker compose up -d
+./mvnw spring-boot:run
+```
+
+### Run Tests
+```bash
+./mvnw test
+```
+
+## Architecture
+
+```
+Donor API → FoodItemService → SpoilageRiskScorer (ML)
+                                      ↓
+RouteOptimizerService → Timefold Solver → RoutePlan
+                                      ↓
+                              AWS ECS (Live)
+```
