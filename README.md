@@ -76,9 +76,9 @@ Food Rescue Optimizer connects food donors (restaurants, supermarkets) with reci
 
 | Resource | URL |
 | :--- | :--- |
-| 🌐 **Live API** | http://3.238.51.54:8081 |
-| 📖 **API Docs** | http://3.238.51.54:8081/swagger-ui/index.html |
-| 💻 **GitHub** | https://github.com/erdkash1/Food-Rescue-Optimizer |
+| 🌐 **Live API** | [http://3.238.51.54:8081](http://3.238.51.54:8081) |
+| 📖 **API Docs** | [http://3.238.51.54:8081/swagger-ui/index.html](http://3.238.51.54:8081/swagger-ui/index.html) |
+| 💻 **GitHub** | [https://github.com/erdkash1/Food-Rescue-Optimizer](https://github.com/erdkash1/Food-Rescue-Optimizer) |
 
 ## Getting Started
 
@@ -93,3 +93,53 @@ Food Rescue Optimizer connects food donors (restaurants, supermarkets) with reci
 colima start
 docker compose up -d
 ./mvnw spring-boot:run
+```
+
+### Run Tests
+
+```bash
+./mvnw test
+```
+
+### Demo Data
+Once the seed migration is in place, a fresh clone loads the demo dataset automatically via Flyway — then call `POST /api/optimize` to watch the solver work.
+
+<!-- TODO: add V4__seed_demo_data.sql with sample donors, recipients, vehicles, and food items -->
+
+## Project Structure
+
+```text
+src/main/java/com/foodrescue/optimizer/
+├── controller/      # REST endpoints — Donor, FoodItem, Recipient, Vehicle, RouteOptimizer
+├── service/         # Business logic — RouteOptimizerService, SpoilageRiskScorer (ML)
+├── solver/          # Timefold constraints — FoodRescueConstraintProvider
+├── domain/          # Planning entities — RoutePlan, Route, RouteStop, Vehicle, Donor, ...
+├── repository/      # Spring Data JPA repositories
+└── exception/       # GlobalExceptionHandler
+
+src/main/resources/
+├── application.properties.example
+└── db/migration/    # Flyway — V1 init schema, V2 remaining tables, V3 spoilage fields
+```
+
+## CI/CD
+Every push to `main` automatically:
+1. Sets up Java 21
+2. Builds with `mvn clean package`
+3. Builds the Docker image and pushes it to Amazon ECR
+4. Triggers a new deployment of the ECS service
+
+## Architecture
+
+```mermaid
+flowchart LR
+    Client -->|REST| C[Controllers<br/>Donor, FoodItem, Recipient,<br/>Vehicle, RouteOptimizer]
+    C --> S[Services<br/>DonorService, FoodItemService,<br/>RecipientService, VehicleService]
+    S --> ML[SpoilageRiskScorer<br/>Smile logistic regression]
+    C --> Opt[RouteOptimizerService]
+    Opt --> Solver[Timefold Solver<br/>FoodRescueConstraintProvider]
+    Solver --> Plan[RoutePlan]
+    S --> DB[(PostgreSQL<br/>Flyway migrations)]
+    Opt --> DB
+```
+*The whole service is packaged as a Docker image and deployed on AWS ECS Fargate, with PostgreSQL on RDS.*
